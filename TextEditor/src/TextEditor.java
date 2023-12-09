@@ -25,6 +25,8 @@ public class TextEditor {
         openFileButton.addActionListener(e -> openToFile());
         saveFile = new JButton("Сохранить");
         saveFile.addActionListener(e -> saveToFile());
+        saveFileAs = new JButton("Сохранить как");
+        saveFileAs.addActionListener(e -> saveToFileAs());
     }
 
     protected void openToFile() {
@@ -58,6 +60,30 @@ public class TextEditor {
         if (currentFile != null) {
             try {
                 editorPane.write(new OutputStreamWriter(new FileOutputStream(currentFile), "utf-8"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void saveToFileAs() {
+        // Все то же самое
+        JFileChooser fileChooser = new JFileChooser();
+        int retval = fileChooser.showSaveDialog(saveFileAs);
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (file == null) {
+                return;
+            }
+            // Проверяем, заканчивается ли имя файла (включая его расширение) на .txt.
+            // Если нет, то код изменяем имя файла, добавляя .txt в конец.
+            if (!file.getName().toLowerCase().endsWith(".txt")) {
+                file = new File(file.getParentFile(), file.getName() + ".txt");
+            }
+            try {
+                // Передаем изменения из текстового пространства в файл и сохраняем их в нем
+                editorPane.write(new OutputStreamWriter(new FileOutputStream(file),
+                        "utf-8"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
