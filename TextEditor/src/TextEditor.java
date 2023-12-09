@@ -23,6 +23,8 @@ public class TextEditor {
         nameOpenedFile = new JLabel();
         openFileButton = new JButton("Открыть файл");
         openFileButton.addActionListener(e -> openToFile());
+        saveFile = new JButton("Сохранить");
+        saveFile.addActionListener(e -> saveToFile());
     }
 
     protected void openToFile() {
@@ -51,6 +53,16 @@ public class TextEditor {
         }
     }
 
+    protected void saveToFile() {
+        // Проверяем существование файла, если есть, тогда сохраняем все изменения в том же файле
+        if (currentFile != null) {
+            try {
+                editorPane.write(new OutputStreamWriter(new FileOutputStream(currentFile), "utf-8"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     {
