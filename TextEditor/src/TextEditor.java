@@ -144,4 +144,26 @@ public class TextEditor {
         return MainPanel;
     }
 
+    public static void main(String[] args) {
+        // Этот метод будет вызван при запуске программы
+        SwingUtilities.invokeLater(() -> {
+            createAndShowGUI();
+        });
+    }
+
+    private static void createAndShowGUI() {
+        // Создает приложение и настраивает
+        JFrame frame = new JFrame("Форма регистрации");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+        TextEditor text_editor = new TextEditor();
+        frame.setContentPane(text_editor.MainPanel);
+
+
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
 }
