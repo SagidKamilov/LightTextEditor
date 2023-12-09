@@ -20,7 +20,35 @@ public class TextEditor {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+        nameOpenedFile = new JLabel();
+        openFileButton = new JButton("Открыть файл");
+        openFileButton.addActionListener(e -> openToFile());
+    }
 
+    protected void openToFile() {
+        // Создаем объект для доступа к файлам
+        JFileChooser fileChooser = new JFileChooser();
+        // Открываем диалоговое окно для выбора файла
+        int retval = fileChooser.showOpenDialog(openFileButton);
+        // Проверка на успешное подтверждение выбора файла
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            // Получаем текущий файл
+            File file = fileChooser.getSelectedFile();
+            // Копируем для дальнейшего использования в функции сохранения
+            currentFile = file;
+            // Устанавливаем название выбранного файла
+            nameOpenedFile.setText(file.getName());
+            // Ничего не делаем, если объект отсутствует
+            if (file == null) {
+                return;
+            }
+            // Читаем все, что в файле и передаем в пространство редактирования текста
+            try (BufferedReader reader = Files.newBufferedReader(file.toPath())) {
+                editorPane.read(reader, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
